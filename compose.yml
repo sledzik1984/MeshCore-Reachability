@@ -1,0 +1,20 @@
+services:
+  reachability:
+    image: ghcr.io/usrflo/meshcore-reachability:latest
+    container_name: meshcore-reachability
+    restart: unless-stopped
+    # If using serial:
+    # devices:
+    #   - "/dev/ttyUSB0:/dev/ttyUSB0"
+    ports:
+      - "5342:5342"
+    environment:
+      #- SERIAL_PORT=/dev/ttyUSB0     
+      - NODE_IP=192.168.253.162
+      - LAT=51.1234            # Twoja szeroko..
+      - LON=20.2233            # Twoja d.ugo..
+      - RAD=25                 # Promie. w km
+      - MC_HEADLESS=false         # Ustaw na true, je.li nie chcesz UI
+      #- MC_MAPTILER_KEY=your_api_key
+    volumes:
+      - /opt/meshcore-reachability:/app/data          # Persist data
