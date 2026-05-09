@@ -90,6 +90,18 @@ This will:
 
 Stop the tool with `Ctrl+C`.
 
+## Docker
+
+You can use Meshcore Reachability as a Docker container.
+
+Compose file is available in this repository. You can use it in Portainer Stack or directly using 
+
+```bash
+docker compose up -d
+```
+
+Remember to set your env vars!
+
 ### Command line options
 
 From `--help` in `meshcore_reachability.py`:
