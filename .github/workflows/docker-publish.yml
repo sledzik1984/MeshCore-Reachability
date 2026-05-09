@@ -8,7 +8,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  # Używamy github.repository, ale metadata-action zadba o małe litery
+  # IMAGE_NAME musi być małymi literami. github.repository może zawierać wielkie litery.
+  # Dlatego w kroku budowania użyjemy metadanych, które to wyczyszczą.
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
@@ -34,14 +35,11 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          # Konfiguracja tagów
+          # Akcja automatycznie zamienia nazwy obrazów na małe litery.
           tags: |
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', github.event.repository.default_branch) }}
             type=semver,pattern={{version}}
             type=sha,format=short
-          # Wymuszenie małych liter w nazwie obrazu (wymóg GHCR)
-          flavor: |
-            lower=true
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -50,3 +48,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
